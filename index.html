@@ -3,420 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ESTADSITICO MCR PUCHKA</title>
+    <title>ESTADISTICO MCR PUCHKA</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
-        body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to bottom right, #eff6ff, #e0e7ff);
-            min-height: 100vh;
-            padding: 32px;
-        }
-        
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .card {
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            padding: 32px;
-        }
-        
-        h1 {
-            font-size: 36px;
-            font-weight: bold;
-            color: #1f2937;
-            margin-bottom: 8px;
-        }
-        
-        .subtitle {
-            color: #4b5563;
-            margin-bottom: 32px;
-        }
-        
-        .grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 32px;
-            margin-bottom: 32px;
-        }
-        
-        .upload-area {
-            border: 2px dashed #93c5fd;
-            border-radius: 8px;
-            padding: 32px;
-            text-align: center;
-            background: #f0f9ff;
-            transition: all 0.3s;
-            cursor: pointer;
-        }
-        
-        .upload-area:hover {
-            background: #e0f2fe;
-        }
-        
-        .upload-area input {
-            display: none;
-        }
-        
-        .upload-icon {
-            width: 48px;
-            height: 48px;
-            color: #3b82f6;
-            margin: 0 auto 12px;
-        }
-        
-        .upload-area p {
-            font-size: 18px;
-            font-weight: 600;
-            color: #374151;
-        }
-        
-        .upload-area span {
-            font-size: 14px;
-            color: #6b7280;
-        }
-        
-        .button-group {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
-        
-        button {
-            width: 100%;
-            font-weight: 600;
-            padding: 12px;
-            border-radius: 8px;
-            border: none;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: all 0.3s;
-            font-size: 16px;
-        }
-        
-        .btn-green {
-            background: #22c55e;
-            color: white;
-        }
-        
-        .btn-green:hover {
-            background: #16a34a;
-        }
-        
-        .btn-indigo {
-            background: #6366f1;
-            color: white;
-        }
-        
-        .btn-indigo:hover {
-            background: #4f46e5;
-        }
-        
-        .btn-red {
-            background: #ef4444;
-            color: white;
-        }
-        
-        .btn-red:hover {
-            background: #dc2626;
-        }
-        
-        .btn-blue {
-            background: #3b82f6;
-            color: white;
-        }
-        
-        .btn-blue:hover {
-            background: #2563eb;
-        }
-        
-        button:disabled {
-            background: #d1d5db;
-            cursor: not-allowed;
-        }
-        
-        .info-box {
-            padding: 16px;
-            border-radius: 8px;
-            margin-bottom: 24px;
-            display: none;
-        }
-        
-        .info-box.show {
-            display: block;
-        }
-        
-        .info-blue {
-            background: #eff6ff;
-            border: 1px solid #bfdbfe;
-            color: #1e40af;
-        }
-        
-        .info-error {
-            background: #fef2f2;
-            border: 1px solid #fecaca;
-        }
-        
-        .info-error p {
-            color: #991b1b;
-            display: flex;
-            gap: 12px;
-            align-items: flex-start;
-        }
-        
-        .info-success {
-            background: #f0fdf4;
-            border: 1px solid #bbf7d0;
-        }
-        
-        .info-success p {
-            color: #166534;
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
-        
-        .filter-section {
-            background: #f0f9ff;
-            border: 1px solid #bfdbfe;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 24px;
-            display: none;
-        }
-        
-        .filter-section.show {
-            display: block;
-        }
-        
-        .filter-group {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 16px;
-            margin-bottom: 16px;
-        }
-        
-        .filter-item {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .filter-item label {
-            font-weight: 600;
-            color: #1f2937;
-            margin-bottom: 8px;
-            font-size: 14px;
-        }
-        
-        .filter-item select {
-            padding: 10px;
-            border: 1px solid #bfdbfe;
-            border-radius: 6px;
-            font-size: 14px;
-            background: white;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .filter-item select:hover {
-            border-color: #3b82f6;
-            box-shadow: 0 0 5px rgba(59, 130, 246, 0.3);
-        }
-        
-        .filter-item select:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 8px rgba(59, 130, 246, 0.5);
-        }
-        
-        .filter-buttons {
-            display: flex;
-            gap: 12px;
-        }
-        
-        .btn-small {
-            padding: 10px 16px;
-            font-size: 14px;
-            flex: 1;
-        }
-        
-        .btn-secondary {
-            background: #6b7280;
-            color: white;
-        }
-        
-        .btn-secondary:hover {
-            background: #4b5563;
-        }
-        
-        .table-container {
-            overflow-x: auto;
-            border: 1px solid #e5e7eb;
-            border-radius: 8px;
-            margin-bottom: 24px;
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        
-        table {
-            width: 100%;
-            font-size: 14px;
-            border-collapse: collapse;
-        }
-        
-        thead {
-            background: #f3f4f6;
-            border-bottom: 1px solid #e5e7eb;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        
-        th {
-            padding: 14px;
-            text-align: left;
-            font-weight: 600;
-            color: #374151;
-            white-space: nowrap;
-            background: #f3f4f6;
-        }
-        
-        td {
-            padding: 14px;
-            color: #1f2937;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            max-width: 285px;
-            vertical-align: middle;
-        }
-        
-        tbody tr {
-            border-bottom: 1px solid #e5e7eb;
-            transition: background-color 0.2s ease;
-        }
-        
-        tbody tr:hover {
-            background-color: #f9fafb;
-        }
-        
-        .stats-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 16px;
-            padding: 24px;
-            background: #f0f4ff;
-            border: 1px solid #c7d2fe;
-            border-radius: 8px;
-        }
-        
-        .stat-card {
-            background: white;
-            padding: 16px;
-            border-radius: 8px;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-        
-        .stat-label {
-            font-size: 14px;
-            color: #4b5563;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        
-        .stat-value {
-            font-size: 28px;
-            font-weight: bold;
-        }
-        
+        /* (mantengo tu CSS tal cual) */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background: linear-gradient(to bottom right, #eff6ff, #e0e7ff); min-height: 100vh; padding: 32px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .card { background: white; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); padding: 32px; }
+        h1 { font-size: 36px; font-weight: bold; color: #1f2937; margin-bottom: 8px; }
+        .subtitle { color: #4b5563; margin-bottom: 32px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 32px; margin-bottom: 32px; }
+        .upload-area { border: 2px dashed #93c5fd; border-radius: 8px; padding: 32px; text-align: center; background: #f0f9ff; transition: all 0.3s; cursor: pointer; }
+        .upload-area:hover { background: #e0f2fe; }
+        .upload-area input { display: none; }
+        .upload-icon { width: 48px; height: 48px; color: #3b82f6; margin: 0 auto 12px; }
+        .upload-area p { font-size: 18px; font-weight: 600; color: #374151; }
+        .upload-area span { font-size: 14px; color: #6b7280; }
+        .button-group { display: flex; flex-direction: column; gap: 12px; }
+        button { width: 100%; font-weight: 600; padding: 12px; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: all 0.3s; font-size: 16px; }
+        .btn-green { background: #22c55e; color: white; }
+        .btn-green:hover { background: #16a34a; }
+        .btn-indigo { background: #6366f1; color: white; }
+        .btn-indigo:hover { background: #4f46e5; }
+        .btn-red { background: #ef4444; color: white; }
+        .btn-red:hover { background: #dc2626; }
+        .btn-blue { background: #3b82f6; color: white; }
+        .btn-blue:hover { background: #2563eb; }
+        button:disabled { background: #d1d5db; cursor: not-allowed; }
+        .info-box { padding: 16px; border-radius: 8px; margin-bottom: 24px; display: none; }
+        .info-box.show { display: block; }
+        .info-blue { background: #eff6ff; border: 1px solid #bfdbfe; color: #1e40af; }
+        .info-error { background: #fef2f2; border: 1px solid #fecaca; }
+        .info-error p { color: #991b1b; display: flex; gap: 12px; align-items: flex-start; }
+        .info-success { background: #f0fdf4; border: 1px solid #bbf7d0; }
+        .info-success p { color: #166534; display: flex; gap: 12px; align-items: center; }
+        .filter-section { background: #f0f9ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 20px; margin-bottom: 24px; display: none; }
+        .filter-section.show { display: block; }
+        .filter-group { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 16px; margin-bottom: 16px; }
+        .filter-item { display: flex; flex-direction: column; }
+        .filter-item label { font-weight: 600; color: #1f2937; margin-bottom: 8px; font-size: 14px; }
+        .filter-item select { padding: 10px; border: 1px solid #bfdbfe; border-radius: 6px; font-size: 14px; background: white; cursor: pointer; transition: all 0.3s; }
+        .filter-item select:hover { border-color: #3b82f6; box-shadow: 0 0 5px rgba(59, 130, 246, 0.3); }
+        .filter-item select:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 8px rgba(59, 130, 246, 0.5); }
+        .filter-buttons { display: flex; gap: 12px; }
+        .btn-small { padding: 10px 16px; font-size: 14px; flex: 1; }
+        .btn-secondary { background: #6b7280; color: white; }
+        .btn-secondary:hover { background: #4b5563; }
+        .table-container { overflow-x: auto; border: 1px solid #e5e7eb; border-radius: 8px; margin-bottom: 24px; max-height: 400px; overflow-y: auto; }
+        table { width: 100%; font-size: 14px; border-collapse: collapse; }
+        thead { background: #f3f4f6; border-bottom: 1px solid #e5e7eb; position: sticky; top: 0; z-index: 100; }
+        th { padding: 14px; text-align: left; font-weight: 600; color: #374151; white-space: nowrap; background: #f3f4f6; }
+        td { padding: 14px; color: #1f2937; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 285px; vertical-align: middle; }
+        tbody tr { border-bottom: 1px solid #e5e7eb; transition: background-color 0.2s ease; }
+        tbody tr:hover { background-color: #f9fafb; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; padding: 24px; background: #f0f4ff; border: 1px solid #c7d2fe; border-radius: 8px; }
+        .stat-card { background: white; padding: 16px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .stat-label { font-size: 14px; color: #4b5563; font-weight: 600; margin-bottom: 8px; }
+        .stat-value { font-size: 28px; font-weight: bold; }
         .stat-value.indigo { color: #4f46e5; }
         .stat-value.green { color: #22c55e; }
         .stat-value.blue { color: #3b82f6; }
         .stat-value.purple { color: #a855f7; }
         .stat-value.orange { color: #f97316; }
-        
-        .section-title {
-            font-size: 24px;
-            font-weight: bold;
-            color: #1f2937;
-            margin-bottom: 16px;
-        }
-        
-        .records-info {
-            color: #4b5563;
-            margin-bottom: 16px;
-        }
-        
-        .rank-number {
-            display: inline-block;
-            min-width: 32px;
-            height: 32px;
-            background: #4f46e5;
-            color: white;
-            border-radius: 50%;
-            text-align: center;
-            line-height: 32px;
-            font-weight: bold;
-            margin-right: 8px;
-        }
-        
-        .frequency-bar {
-            display: inline-block;
-            background: linear-gradient(90deg, #3b82f6, #2563eb);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 4px;
-            font-weight: bold;
-        }
-        
-        .production-section {
-            background: #fef3c7;
-            border: 1px solid #fcd34d;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 24px;
-            display: none;
-        }
-        
-        .production-section.show {
-            display: block;
-        }
-        
-        .production-section h3 {
-            margin-bottom: 16px;
-            color: #92400e;
-            font-size: 18px;
-        }
-        
-        .production-section p {
-            color: #b45309;
-            margin-bottom: 16px;
-        }
-        
-        .production-buttons {
-            display: flex;
-            gap: 12px;
-            flex-wrap: wrap;
-        }
+        .section-title { font-size: 24px; font-weight: bold; color: #1f2937; margin-bottom: 16px; }
+        .records-info { color: #4b5563; margin-bottom: 16px; }
+        .rank-number { display: inline-block; min-width: 32px; height: 32px; background: #4f46e5; color: white; border-radius: 50%; text-align: center; line-height: 32px; font-weight: bold; margin-right: 8px; }
+        .frequency-bar { display: inline-block; background: linear-gradient(90deg, #3b82f6, #2563eb); color: white; padding: 4px 12px; border-radius: 4px; font-weight: bold; }
+        .production-section { background: #fef3c7; border: 1px solid #fcd34d; border-radius: 8px; padding: 20px; margin-bottom: 24px; display: none; }
+        .production-section.show { display: block; }
+        .production-section h3 { margin-bottom: 16px; color: #92400e; font-size: 18px; }
+        .production-section p { color: #b45309; margin-bottom: 16px; }
+        .production-buttons { display: flex; gap: 12px; flex-wrap: wrap; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="card">
-            <h1></h1>
+            <h1>ESTADÍSTICO MCR PUCHKA</h1> <!-- se añadió título visible -->
             <p class="subtitle">ESTADISTICO MCR PUCHKA</p>
             
             <div class="grid">
@@ -431,7 +95,6 @@
                 </div>
                 
                 <div class="button-group">
-                    
                     <button class="btn-indigo" id="downloadBtn" onclick="downloadData()" disabled>Descargar Archivo</button>
                     <button class="btn-red" id="clearBtn" onclick="clearData()" disabled>Limpiar Todo</button>
                 </div>
@@ -486,7 +149,7 @@
             
             <div id="productionReportSection" style="display: none; margin-top: 32px;">
                 <h2 class="section-title">📊 Reporte de Reporte de Personal</h2>
-                <p style="color: #4b5563; margin-bottom: 16px;">Comparación de las produciones del personales de salud</p>
+                <p style="color: #4b5563; margin-bottom: 16px;">Comparación de las producciones del personal de salud</p>
                 <div class="table-container">
                     <table id="productionTable">
                         <thead id="productionHead"></thead>
@@ -551,9 +214,9 @@
             };
             
             request.onupgradeneeded = (e) => {
-                const db = e.target.result;
-                if (!db.objectStoreNames.contains('medicalData')) {
-                    db.createObjectStore('medicalData', { keyPath: 'id' });
+                const dbUp = e.target.result;
+                if (!dbUp.objectStoreNames.contains('medicalData')) {
+                    dbUp.createObjectStore('medicalData', { keyPath: 'id' });
                 }
             };
             
@@ -607,7 +270,10 @@
                     }
                     
                     if (productionData.length > 0) {
+                        // mostrar nombre de archivo de producciones si se guardó en storage (si no se guardó el nombre, mostramos la cuenta)
                         document.getElementById('productionFileName').textContent = `✓ Archivo de producción cargado (${productionData.length} registros)`;
+                        document.getElementById('productionFileBox').style.display = 'block';
+                        document.getElementById('productionFileNameDisplay').textContent = `Registros: ${productionData.length}`;
                         document.getElementById('compareBtn').disabled = false;
                     }
                 }
@@ -634,16 +300,16 @@
             if (!file) return;
 
             // Validar que NO sea un archivo de producciones
-            const fileName = file.name.toLowerCase();
+            const fileName = (file.name || '').toLowerCase();
             if (fileName.includes('producciones') || fileName.includes('produccion')) {
-                showMessage('error', '❌ Este archivo parece ser de Producciones. Usa el botón "Cargar Archivo de Producción" para cargarlo.');
+                showMessage('error', 'Este archivo parece ser de Producciones. Usa el botón "Cargar Archivo de Producción" para cargarlo.');
                 document.getElementById('fileInput').value = '';
                 return;
             }
 
             // Si ya hay datos cargados, mostrar advertencia
             if (allData.length > 0) {
-                showMessage('error', '❌ Ya hay datos cargados. Usa "Limpiar Todo" para cargar un nuevo archivo.');
+                showMessage('error', 'Ya hay datos cargados. Usa "Limpiar Todo" para cargar un nuevo archivo.');
                 document.getElementById('fileInput').value = '';
                 return;
             }
@@ -665,22 +331,24 @@
                         return;
                     }
 
-                    const range = XLSX.utils.decode_range(worksheet['!ref']);
+                    const range = worksheet['!ref'] ? XLSX.utils.decode_range(worksheet['!ref']) : null;
                     const headers = [];
                     
-                    for (let col = range.s.c; col <= range.e.c; col++) {
-                        const cellAddress = XLSX.utils.encode_cell({ r: 0, c: col });
-                        const cell = worksheet[cellAddress];
-                        if (cell) {
-                            headers.push(cell.v);
+                    if (range) {
+                        for (let col = range.s.c; col <= range.e.c; col++) {
+                            const cellAddress = XLSX.utils.encode_cell({ r: 0, c: col });
+                            const cell = worksheet[cellAddress];
+                            if (cell) {
+                                headers.push(cell.v);
+                            }
                         }
                     }
 
-                    allHeaders = headers.length > 0 ? headers : Object.keys(jsonData[0]);
+                    allHeaders = headers.length > 0 ? headers : Object.keys(jsonData[0] || {});
                     allData = jsonData;
                     filteredData = [...allData];
 
-                    showMessage('success', `✓ Archivo de citas cargado correctamente. ${jsonData.length} registros encontrados.`);
+                    showMessage('success', `Archivo de citas cargado correctamente. ${jsonData.length} registros encontrados.`);
                     saveToStorage();
                     populateFilters();
                     displayData();
@@ -697,9 +365,11 @@
                     productionData = [];
                     document.getElementById('productionFileInput').value = '';
                     document.getElementById('productionFileName').textContent = '';
+                    document.getElementById('productionFileBox').style.display = 'none';
+                    document.getElementById('productionFileNameDisplay').textContent = '';
                     document.getElementById('compareBtn').disabled = true;
                 } catch (err) {
-                    showMessage('error', 'Error al procesar el archivo: ' + err.message);
+                    showMessage('error', 'Error al procesar el archivo: ' + (err && err.message ? err.message : String(err)));
                 }
             };
             reader.readAsArrayBuffer(file);
@@ -710,9 +380,9 @@
             if (!file) return;
 
             // Validar que SÍ sea un archivo de producciones
-            const fileName = file.name.toLowerCase();
+            const fileName = (file.name || '').toLowerCase();
             if (!fileName.includes('producciones') && !fileName.includes('produccion')) {
-                showMessage('error', '❌ Este archivo no parece ser de Producciones. El archivo debe incluir "producciones" o "produccion" en su nombre.');
+                showMessage('error', 'Este archivo no parece ser de Producciones. El archivo debe incluir "producciones" o "produccion" en su nombre.');
                 document.getElementById('productionFileInput').value = '';
                 return;
             }
@@ -732,11 +402,13 @@
 
                     productionData = jsonData;
                     document.getElementById('productionFileName').textContent = `✓ Archivo de producción cargado: ${file.name} (${jsonData.length} registros)`;
+                    document.getElementById('productionFileBox').style.display = 'block';
+                    document.getElementById('productionFileNameDisplay').textContent = `${file.name} — ${jsonData.length} registros`;
                     document.getElementById('compareBtn').disabled = false;
-                    showMessage('success', `✓ Archivo de producción cargado correctamente. ${jsonData.length} registros encontrados.`);
+                    showMessage('success', `Archivo de producción cargado correctamente. ${jsonData.length} registros encontrados.`);
                     saveToStorage();
                 } catch (err) {
-                    showMessage('error', 'Error al procesar el archivo de producción: ' + err.message);
+                    showMessage('error', 'Error al procesar el archivo de producción: ' + (err && err.message ? err.message : String(err)));
                 }
             };
             reader.readAsArrayBuffer(file);
@@ -755,7 +427,7 @@
                 const establecimiento = row.Nombre_Establecimiento || 'SIN ESTABLECIMIENTO';
                 const profesion = row.Descripcion_Profesion || 'SIN PROFESIÓN';
                 const dia = row.Dia || 'SIN DÍA';
-                const idPaciente = row.Id_Paciente || 'SIN PACIENTE';
+                const idPaciente = row.Id_Paciente || row.Numero_Documento_Paciente || 'SIN PACIENTE';
                 
                 const key = establecimiento + '|' + personal + '|' + profesion + '|' + dia;
                 
@@ -778,7 +450,7 @@
                 const establecimiento = row.Nombre_Establecimiento || 'SIN ESTABLECIMIENTO';
                 const profesion = row.Descripcion_Profesion || 'SIN PROFESIÓN';
                 const dia = row.Dia || 'SIN DÍA';
-                const idPaciente = row.Id_Paciente || 'SIN PACIENTE';
+                const idPaciente = row.Id_Paciente || row.Numero_Documento_Paciente || 'SIN PACIENTE';
                 
                 const key = establecimiento + '|' + personal + '|' + profesion + '|' + dia;
                 
@@ -807,25 +479,28 @@
                 const produccionesCount = registered ? registered.pacientes.size : 0;
                 
                 return {
-                    establecimiento: medical?.establecimiento || registered?.establecimiento,
-                    personal: medical?.personal || registered?.personal,
-                    profesion: medical?.profesion || registered?.profesion,
-                    dia: medical?.dia || registered?.dia,
+                    establecimiento: medical?.establecimiento || registered?.establecimiento || '',
+                    personal: medical?.personal || registered?.personal || '',
+                    profesion: medical?.profesion || registered?.profesion || '',
+                    dia: medical?.dia || registered?.dia || '',
                     citasAtendidas: citasCount,
                     produccionesRegistradas: produccionesCount,
                     diferencia: produccionesCount - citasCount
                 };
             }).sort((a, b) => {
-                if (a.establecimiento !== b.establecimiento) return a.establecimiento.localeCompare(b.establecimiento);
-                if (a.personal !== b.personal) return a.personal.localeCompare(b.personal);
-                if (a.profesion !== b.profesion) return a.profesion.localeCompare(b.profesion);
-                return a.dia - b.dia;
+                if (a.establecimiento !== b.establecimiento) return (a.establecimiento || '').localeCompare(b.establecimiento || '');
+                if (a.personal !== b.personal) return (a.personal || '').localeCompare(b.personal || '');
+                if (a.profesion !== b.profesion) return (a.profesion || '').localeCompare(b.profesion || '');
+                // ordenar día como número si es posible
+                const da = parseInt(a.dia) || 0;
+                const db = parseInt(b.dia) || 0;
+                return da - db;
             });
 
             displayProductionComparison(comparisonData);
             currentReport = 'production';
             document.getElementById('printBtn').disabled = false;
-            showMessage('success', `✓ Comparación realizada: ${comparisonData.length} registros analizados`);
+            showMessage('success', `Comparación realizada: ${comparisonData.length} registros analizados`);
         }
 
         function displayProductionComparison(data) {
@@ -842,7 +517,8 @@
                         dias: {}
                     };
                 }
-                groupedData[groupKey].totalProductions += item.citasAtendidas;
+                // ahora sumamos produccionesRegistradas (y no citasAtendidas) para el total de producciones
+                groupedData[groupKey].totalProductions += item.produccionesRegistradas || 0;
                 groupedData[groupKey].dias[item.dia] = item;
             });
 
@@ -850,7 +526,8 @@
             data.forEach(item => {
                 allDias.add(item.dia);
             });
-            const sortedDias = Array.from(allDias).sort((a, b) => a - b);
+            // ordenar días numéricamente si posible
+            const sortedDias = Array.from(allDias).sort((a, b) => (parseInt(a) || 0) - (parseInt(b) || 0));
 
             const productionHead = document.getElementById('productionHead');
             let headerHTML = `
@@ -879,13 +556,14 @@
                 
                 sortedDias.forEach(dia => {
                     const item = group.dias[dia];
-                    if (item && item.citasAtendidas > 0) {
-                        rowHTML += `<td style="padding: 12px; text-align: center; background: #dcfce7; color: #15803d; font-weight: bold; min-width: 80px;">${item.citasAtendidas}</td>`;
+                    if (item && (item.produccionesRegistradas > 0 || item.citasAtendidas > 0)) {
+                        // mostramos produccionesRegistradas, y si no existe mostramos citasAtendidas para dar contexto
+                        const val = item.produccionesRegistradas > 0 ? item.produccionesRegistradas : item.citasAtendidas;
+                        rowHTML += `<td style="padding: 12px; text-align: center; background: #dcfce7; color: #15803d; font-weight: bold; min-width: 80px;">${val}</td>`;
                     } else {
                         rowHTML += `<td style="padding: 12px; text-align: center; background: #fee2e2; color: #991b1b; font-weight: bold; min-width: 80px;"> ✗</td>`;
                     }
                 });
-
                 
                 rowHTML += `</tr>`;
                 return rowHTML;
@@ -1004,30 +682,22 @@
             frequencyBody.innerHTML = sortedItems.map((item, idx) => {
                 const percentage = ((item[1] / maxFrequency) * 100).toFixed(1);
                 
-                // Colores según la posición
-                let rankColor = '#4f46e5'; // Índigo por defecto
-                let barColor = 'linear-gradient(90deg, #3b82f6, #2563eb)'; // Azul por defecto
+                let rankColor = '#4f46e5';
+                let barColor = 'linear-gradient(90deg, #3b82f6, #2563eb)';
                 let barBgColor = '#dbeafe';
-                let textColor = '#1e40af';
                 
                 if (idx === 0) {
-                    // Primer lugar - Rojo oscuro
                     rankColor = '#dc2626';
                     barColor = 'linear-gradient(90deg, #ef4444, #dc2626)';
                     barBgColor = '#fee2e2';
-                    textColor = '#991b1b';
                 } else if (idx === 1) {
-                    // Segundo lugar - Verde
                     rankColor = '#22c55e';
                     barColor = 'linear-gradient(90deg, #22c55e, #16a34a)';
                     barBgColor = '#dcfce7';
-                    textColor = '#166534';
                 } else if (idx === 2) {
-                    // Tercer lugar - Amarillo
                     rankColor = '#eab308';
                     barColor = 'linear-gradient(90deg, #eab308, #ca8a04)';
                     barBgColor = '#fef3c7';
-                    textColor = '#92400e';
                 }
                 
                 return `
@@ -1055,13 +725,12 @@
             document.getElementById('frequencyReportSection').style.display = 'block';
             document.getElementById('printBtn').disabled = false;
             currentReport = 'frequency';
-            showMessage('success', `✓ Reporte generado: Top 10 de ${Object.keys(frequencyMap).length} ítems únicos`);
+            showMessage('success', `Reporte generado: Top 10 de ${Object.keys(frequencyMap).length} ítems únicos`);
         }
 
         function generateReportByProfessional() {
             if (filteredData.length === 0) return;
 
-            // Crear estructura de datos para pivot table
             const pivotData = {};
             
             filteredData.forEach(row => {
@@ -1087,16 +756,14 @@
                 pivotData[estKey][perKey][diaKey] += cantidad;
             });
 
-            // Obtener todos los días únicos
             const allDays = new Set();
             Object.values(pivotData).forEach(est => {
                 Object.values(est).forEach(per => {
-                    Object.keys(per).forEach(dia => allDays.add(parseInt(dia)));
+                    Object.keys(per).forEach(dia => allDays.add(parseInt(dia) || 0));
                 });
             });
             const sortedDays = Array.from(allDays).sort((a, b) => a - b);
 
-            // Construir tabla HTML
             const reportHead2 = document.getElementById('reportHead2');
             let headerHTML = '<tr style="background: #f3f4f6;"><th style="padding: 12px; text-align: left; font-weight: 600; color: #374151; min-width: 200px;">Establecimiento</th><th style="padding: 12px; text-align: left; font-weight: 600; color: #374151; min-width: 150px;">Personal</th><th style="padding: 12px; text-align: center; font-weight: 600; color: #374151; min-width: 80px;">Total</th>';
             
@@ -1112,19 +779,14 @@
             sortedDays.forEach(d => totalByDay[d] = 0);
             let grandTotal = 0;
 
-            // Recorrer establecimientos
             Object.entries(pivotData).forEach(([est, personas]) => {
-                let estTotal = 0;
-                
-                // Primera fila del establecimiento (con nombre)
                 Object.entries(personas).forEach(([per, dias], idx) => {
                     let perTotal = Object.values(dias).reduce((a, b) => a + b, 0);
-                    estTotal += perTotal;
+                    grandTotal += perTotal;
                     
                     let rowHTML = '<tr style="border-bottom: 1px solid #e5e7eb;">';
                     
                     if (idx === 0) {
-                        // Primera fila del personal
                         rowHTML += `<td style="padding: 12px; color: #1f2937; font-weight: bold; background: #f0f9ff; border-right: 2px solid #bfdbfe;">${est}</td>`;
                     } else {
                         rowHTML += `<td style="padding: 12px; color: #1f2937; background: #f0f9ff; border-right: 2px solid #bfdbfe;"></td>`;
@@ -1136,7 +798,6 @@
                     sortedDays.forEach(dia => {
                         const count = dias[String(dia)] || 0;
                         totalByDay[dia] += count;
-                        grandTotal += count;
                         
                         if (count > 0) {
                             rowHTML += `<td style="padding: 12px; text-align: center; background: #dcfce7; color: #15803d; font-weight: bold;"> ${count}</td>`;
@@ -1150,7 +811,6 @@
                 });
             });
 
-            // Fila de Total general
             let totalRow = '<tr style="border-top: 2px solid #000; background: #f3f4f6; font-weight: bold;">';
             totalRow += `<td colspan="2" style="padding: 12px; text-align: right; color: #1f2937; font-weight: bold;">Total general</td>`;
             totalRow += `<td style="padding: 12px; text-align: center; font-weight: 600; color: white; background: #1f2937;">${grandTotal}</td>`;
@@ -1167,7 +827,7 @@
             document.getElementById('reportSection2').style.display = 'block';
             document.getElementById('printBtn').disabled = false;
             currentReport = 'professional';
-            showMessage('success', `✓ Reporte generado: Total de ${grandTotal} citas`);
+            showMessage('success', `Reporte generado: Total de ${grandTotal} citas`);
         }
 
         function printReport() {
@@ -1243,7 +903,6 @@
                 tableHtml = document.getElementById('productionTable').outerHTML;
             }
             
-            // Crear HTML con estilos para Excel
             const html = `
                 <html xmlns:x="urn:schemas-microsoft-com:office:excel">
                 <head>
@@ -1252,34 +911,12 @@
                         body { font-family: Arial, sans-serif; margin: 0; }
                         h1 { text-align: center; color: #1f2937; font-size: 18px; margin: 20px 0 5px; }
                         .header { text-align: center; color: #666; font-size: 12px; margin-bottom: 20px; }
-                        table { 
-                            width: 100%; 
-                            border-collapse: collapse; 
-                            margin: 20px 0;
-                        }
-                        thead {
-                            background-color: #3b82f6;
-                            color: white;
-                        }
-                        thead th {
-                            padding: 12px;
-                            text-align: left;
-                            font-weight: bold;
-                            border: 1px solid #000;
-                            background-color: #3b82f6;
-                            color: white;
-                        }
-                        tbody td {
-                            padding: 12px;
-                            border: 1px solid #e5e7eb;
-                            text-align: left;
-                        }
-                        tbody tr:nth-child(even) {
-                            background-color: #f9fafb;
-                        }
-                        tbody tr:nth-child(odd) {
-                            background-color: #ffffff;
-                        }
+                        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+                        thead { background-color: #3b82f6; color: white; }
+                        thead th { padding: 12px; text-align: left; font-weight: bold; border: 1px solid #000; background-color: #3b82f6; color: white; }
+                        tbody td { padding: 12px; border: 1px solid #e5e7eb; text-align: left; }
+                        tbody tr:nth-child(even) { background-color: #f9fafb; }
+                        tbody tr:nth-child(odd) { background-color: #ffffff; }
                     </style>
                 </head>
                 <body>
@@ -1292,7 +929,6 @@
                 </html>
             `;
             
-            // Crear y descargar como archivo Excel
             const blob = new Blob([html], { type: 'application/vnd.ms-excel;charset=utf-8' });
             const link = document.createElement('a');
             link.href = URL.createObjectURL(blob);
@@ -1327,83 +963,71 @@
         }
 
         function downloadData() {
-    if (filteredData.length === 0) return;
+            if (filteredData.length === 0) return;
 
-    // Detectar columnas de fecha
-    const dateColumns = new Set();
-    allHeaders.forEach(header => {
-        if (header.toLowerCase().includes('fecha') || 
-            header.toLowerCase().includes('date') ||
-            header.toLowerCase().includes('dia')) {
-            dateColumns.add(header);
-        }
-    });
-
-    const completeData = filteredData.map(row => {
-        const completeRow = {};
-        allHeaders.forEach(header => {
-            let value = row[header] !== undefined ? row[header] : '';
-            
-            // Si es una columna de fecha, formatearla
-            if (dateColumns.has(header) && value) {
-                value = formatDateValue(value);
-            }
-            
-            completeRow[header] = value;
-        });
-        return completeRow;
-    });
-
-    const ws = XLSX.utils.json_to_sheet(completeData);
-    
-    // Aplicar formato de fecha a las columnas detectadas
-    allHeaders.forEach((header, idx) => {
-        if (dateColumns.has(header)) {
-            const col = XLSX.utils.encode_col(idx);
-            for (let row = 2; row <= completeData.length + 1; row++) {
-                const cellAddress = col + row;
-                if (ws[cellAddress]) {
-                    ws[cellAddress].z = 'dd/mm/yyyy'; // Formato de fecha corta
+            const dateColumns = new Set();
+            allHeaders.forEach(header => {
+                if (!header) return;
+                const lh = String(header).toLowerCase();
+                if (lh.includes('fecha') || lh.includes('date') || lh.includes('dia')) {
+                    dateColumns.add(header);
                 }
-            }
+            });
+
+            const completeData = filteredData.map(row => {
+                const completeRow = {};
+                allHeaders.forEach(header => {
+                    let value = row[header] !== undefined ? row[header] : '';
+                    if (dateColumns.has(header) && value) {
+                        value = formatDateValue(value);
+                    }
+                    completeRow[header] = value;
+                });
+                return completeRow;
+            });
+
+            const ws = XLSX.utils.json_to_sheet(completeData);
+            
+            allHeaders.forEach((header, idx) => {
+                if (dateColumns.has(header)) {
+                    const col = XLSX.utils.encode_col(idx);
+                    for (let row = 2; row <= completeData.length + 1; row++) {
+                        const cellAddress = col + row;
+                        if (ws[cellAddress]) {
+                            ws[cellAddress].z = 'dd/mm/yyyy';
+                        }
+                    }
+                }
+            });
+
+            const colWidths = allHeaders.map(h => ({ wch: 18 }));
+            ws['!cols'] = colWidths;
+
+            const wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Datos');
+            XLSX.writeFile(wb, `datos_exportados_${new Date().getTime()}.xlsx`);
+            showMessage('success', '✓ Datos descargados con formato de fecha preservado');
         }
-    });
 
-    const colWidths = allHeaders.map(h => ({ wch: 18 }));
-    ws['!cols'] = colWidths;
-
-    const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Datos');
-    XLSX.writeFile(wb, `datos_exportados_${new Date().getTime()}.xlsx`);
-    showMessage('success', '✓ Datos descargados con formato de fecha preservado');
-}
-
-function formatDateValue(value) {
-    if (!value) return '';
-    
-    // Si ya es una cadena con formato dd/mm/yyyy
-    if (typeof value === 'string' && /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(value)) {
-        return value;
-    }
-    
-    // Si es un número (Excel serial date)
-    if (typeof value === 'number') {
-        const date = new Date((value - 25569) * 86400 * 1000);
-        return date.getDate().toString().padStart(2, '0') + '/' + 
-               (date.getMonth() + 1).toString().padStart(2, '0') + '/' + 
-               date.getFullYear();
-    }
-    
-    // Si es una cadena de fecha ISO (YYYY-MM-DD)
-    if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}/.test(value)) {
-        const date = new Date(value);
-        return date.getDate().toString().padStart(2, '0') + '/' + 
-               (date.getMonth() + 1).toString().padStart(2, '0') + '/' + 
-               date.getFullYear();
-    }
-    
-    return String(value);
-}
+        function formatDateValue(value) {
+            if (!value) return '';
+            if (typeof value === 'string' && /^\d{1,2}\/\d{1,2}\/\d{4}$/.test(value)) {
+                return value;
+            }
+            if (typeof value === 'number') {
+                const date = new Date((value - 25569) * 86400 * 1000);
+                return date.getDate().toString().padStart(2, '0') + '/' + 
+                       (date.getMonth() + 1).toString().padStart(2, '0') + '/' + 
+                       date.getFullYear();
+            }
+            if (typeof value === 'string' && /^\d{4}-\d{2}-\d{2}/.test(value)) {
+                const date = new Date(value);
+                return date.getDate().toString().padStart(2, '0') + '/' + 
+                       (date.getMonth() + 1).toString().padStart(2, '0') + '/' + 
+                       date.getFullYear();
+            }
+            return String(value);
+        }
 
         function clearData() {
             allData = [];
@@ -1413,7 +1037,8 @@ function formatDateValue(value) {
             currentReport = null;
             document.getElementById('fileInput').value = '';
             document.getElementById('fileInput').disabled = false;
-            document.getElementById('productionFileInput').value = '';
+            const prodInput = document.getElementById('productionFileInput');
+            if (prodInput) prodInput.value = '';
             document.getElementById('fileNameBox').classList.remove('show');
             document.getElementById('productionFileBox').style.display = 'none';
             document.getElementById('errorBox').classList.remove('show');
